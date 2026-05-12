@@ -1,7 +1,8 @@
-import config from "../config";
-import { GET_YOUTUBE_PLAYLIST, GET_YOUTUBE_VIDEO } from "./urls";
+import config from "../config.js";
+import fetch from "./fetch.js";
+import { GET_YOUTUBE_PLAYLIST, GET_YOUTUBE_VIDEO } from "./urls.js";
 
-interface Video {
+export interface Video {
   id: string;
   snippet: {
     title: string;
@@ -61,19 +62,19 @@ const getYoutubePlaylist = async (
       pageToken
     );
 
-    const response = await fetch(url).then((res) => res.json());
+    const response: any = await fetch(url).then((res) => res.json());
     const items = response.items || [];
     stats.totalInPlaylist += items.length;
 
     const ids = items
       .map((item: any) => item.contentDetails?.videoId)
-      .filter(Boolean);
+      .filter(Boolean) as string[];
     if (ids.length === 0) {
       if (response.nextPageToken) await getVideos(response.nextPageToken);
       return;
     }
 
-    const videoRes = await fetch(
+    const videoRes: any = await fetch(
       `${GET_YOUTUBE_VIDEO}?part=snippet,contentDetails&key=${config.youtube.key}&id=${ids.join(",")}`,
       { method: "get" }
     ).then((res: any) => res.json());

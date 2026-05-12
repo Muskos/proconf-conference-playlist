@@ -1,11 +1,25 @@
 {
   "name": "proconf-conference-playlist",
   "version": "1.0.0",
-  "description": "",
+  "description": "Create Trello cards from a YouTube playlist.",
   "type": "module",
-  "main": "main.ts",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "bin": {
+    "proconf-playlist": "./dist/main.js",
+    "proconf-conference-playlist": "./dist/main.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    ".env.example"
+  ],
   "scripts": {
-    "start": "node --loader ts-node/esm ./main.ts"
+    "build": "tsc",
+    "prepare": "npm run build",
+    "start": "node --loader ts-node/esm ./main.ts",
+    "dev": "node --loader ts-node/esm ./main.ts",
+    "check": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
